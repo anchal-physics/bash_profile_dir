@@ -1,7 +1,6 @@
 export PYTHONPATH="${PYTHONPATH}:/Users/anchal/Git/cit_ctnlab/ctn_noisebudget/noiseBudget/"
 export PYTHONPATH="${PYTHONPATH}:/Users/anchal/Git/cit_ctnlab/ctn_scripts/"
 export PYTHONPATH="${PYTHONPATH}:/Users/anchal/Git/cit_ctnlab/"
-export PYTHONPATH="${PYTHONPATH}:/Users/anchal/Git/pygwinc/"
 export PYTHONPATH="${PYTHONPATH}:/Users/anchal/Git/40m/labutils/"
 export PYTHONPATH="${PYTHONPATH}:/Users/anchal/Git/40m/"
 export PYTHONPATH="${PYTHONPATH}:/Users/anchal/Git/"
