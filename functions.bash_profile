@@ -2,26 +2,26 @@ ws1() {
     re='^[0-9]+$'
     if [ $# -eq 0 ]
     then
-        ssh -Y controls@131.215.115.216
+        ssh -CY controls@131.215.115.216
     elif [ $# -eq 1 ]
     then
         if ! [[ $1 =~ $re ]]
         then
-            ssh -Y controls@131.215.115.216 "$1"
+            ssh -CY controls@131.215.115.216 "$1"
         else
-            ssh -Y controls@131.215.115.216 -L "$1":localhost:"$1"
+            ssh -CY controls@131.215.115.216 -L "$1":localhost:"$1"
         fi
     elif [ $# -ge 2 ]
     then
         if ! [[ $1 =~ $re ]]
         then
-            ssh -Y controls@131.215.115.216 "${@:1:99}"
+            ssh -CY controls@131.215.115.216 "${@:1:99}"
         else
             if ! [[ $2 =~ $re ]]
             then
-                ssh -Y controls@131.215.115.216 -L "$1":localhost:"$1" "${@:2:99}"
+                ssh -CY controls@131.215.115.216 -L "$1":localhost:"$1" "${@:2:99}"
             else
-                ssh -Y controls@131.215.115.216 -L "$1":localhost:"$2" "${@:3:99}"
+                ssh -CY controls@131.215.115.216 -L "$1":localhost:"$2" "${@:3:99}"
             fi
         fi
     fi
@@ -31,26 +31,26 @@ nodus() {
     re='^[0-9]+$'
     if [ $# -eq 0 ]
     then
-        ssh -Y controls@nodus.ligo.caltech.edu
+        ssh -CY controls@nodus.ligo.caltech.edu
     elif [ $# -eq 1 ]
     then
         if ! [[ $1 =~ $re ]]
         then
-            ssh -Y controls@nodus.ligo.caltech.edu "$1"
+            ssh -CY controls@nodus.ligo.caltech.edu "$1"
         else
-            ssh -Y controls@nodus.ligo.caltech.edu -L "$1":localhost:"$1"
+            ssh -CY controls@nodus.ligo.caltech.edu -L "$1":localhost:"$1"
         fi
     elif [ $# -ge 2 ]
     then
         if ! [[ $1 =~ $re ]]
         then
-            ssh -Y controls@nodus.ligo.caltech.edu "${@:1:99}"
+            ssh -CY controls@nodus.ligo.caltech.edu "${@:1:99}"
         else
             if ! [[ $2 =~ $re ]]
             then
-                ssh -Y controls@nodus.ligo.caltech.edu -L "$1":localhost:"$1" "${@:2:99}"
+                ssh -CY controls@nodus.ligo.caltech.edu -L "$1":localhost:"$1" "${@:2:99}"
             else
-                ssh -Y controls@nodus.ligo.caltech.edu -L "$1":localhost:"$2" "${@:3:99}"
+                ssh -CY controls@nodus.ligo.caltech.edu -L "$1":localhost:"$2" "${@:3:99}"
             fi
         fi
     fi
