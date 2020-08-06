@@ -139,3 +139,9 @@ tmuxmux() {
     echo 'With command: '"$command"
   fi
 }
+
+gitHookExec() {
+  for hook in ./.git/hooks/*; do
+    chmod u+x $hook
+  done
+}
