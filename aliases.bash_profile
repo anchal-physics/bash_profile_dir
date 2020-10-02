@@ -5,3 +5,7 @@ for file in ~/Git/my_scripts/*.py;
 do
   alias ${${file##*/}/.py/}="python "$file
 done
+for file in ~/Git/cit_ctnlab/ctn_scripts/moku*.py;
+do
+  alias ${${file##*/}/.py/}="python "$file
+done
