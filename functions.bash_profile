@@ -56,6 +56,35 @@ nodus() {
     fi
 }
 
+rp1() {
+    re='^[0-9]+$'
+    if [ $# -eq 0 ]
+    then
+        ssh -CY root@rp-f071e9.local
+    elif [ $# -eq 1 ]
+    then
+        if ! [[ $1 =~ $re ]]
+        then
+            ssh -CY root@rp-f071e9.local "$1"
+        else
+            ssh -CY root@rp-f071e9.local -L "$1":localhost:"$1"
+        fi
+    elif [ $# -ge 2 ]
+    then
+        if ! [[ $1 =~ $re ]]
+        then
+            ssh -CY root@rp-f071e9.local "${@:1:99}"
+        else
+            if ! [[ $2 =~ $re ]]
+            then
+                ssh -CY root@rp-f071e9.local -L "$1":localhost:"$1" "${@:2:99}"
+            else
+                ssh -CY root@rp-f071e9.local -L "$1":localhost:"$2" "${@:3:99}"
+            fi
+        fi
+    fi
+}
+
 scpws1() {
     dest=$2
     if [ ${dest:0:13} = "/Users/anchal" ]
@@ -93,6 +122,26 @@ nodusscp() {
         scp "${@:3:99}" controls@nodus.ligo.caltech.edu:"/home/controls${dest:13}" "$2"
     else
         scp "${@:3:99}" controls@nodus.ligo.caltech.edu:"$1" "$2"
+    fi
+}
+
+scprp1() {
+    dest=$2
+    if [ ${dest:0:13} = "/Users/anchal" ]
+    then
+        scp "${@:3:99}" "$1" root@rp-f071e9.local:"/home/anchal${dest:13}"
+    else
+        scp "${@:3:99}" "$1" root@rp-f071e9.local:"$2"
+    fi
+}
+
+rp1scp() {
+    dest=$1
+    if [ ${dest:0:13} = "/Users/anchal" ]
+    then
+        scp "${@:3:99}" root@rp-f071e9.local:"/home/anchal${dest:13}" "$2"
+    else
+        scp "${@:3:99}" root@rp-f071e9.local:"$1" "$2"
     fi
 }
 
