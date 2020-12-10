@@ -85,6 +85,64 @@ rp1() {
     fi
 }
 
+2umioc() {
+    re='^[0-9]+$'
+    if [ $# -eq 0 ]
+    then
+        ssh -CY controls@131.215.123.232
+    elif [ $# -eq 1 ]
+    then
+        if ! [[ $1 =~ $re ]]
+        then
+            ssh -CY controls@131.215.123.232 "$1"
+        else
+            ssh -CY controls@131.215.123.232 -L "$1":localhost:"$1"
+        fi
+    elif [ $# -ge 2 ]
+    then
+        if ! [[ $1 =~ $re ]]
+        then
+            ssh -CY controls@131.215.123.232 "${@:1:99}"
+        else
+            if ! [[ $2 =~ $re ]]
+            then
+                ssh -CY controls@131.215.123.232 -L "$1":localhost:"$1" "${@:2:99}"
+            else
+                ssh -CY controls@131.215.123.232 -L "$1":localhost:"$2" "${@:3:99}"
+            fi
+        fi
+    fi
+}
+
+2umws1() {
+    re='^[0-9]+$'
+    if [ $# -eq 0 ]
+    then
+        ssh -CY controls@131.215.123.234
+    elif [ $# -eq 1 ]
+    then
+        if ! [[ $1 =~ $re ]]
+        then
+            ssh -CY controls@131.215.123.234 "$1"
+        else
+            ssh -CY controls@131.215.123.234 -L "$1":localhost:"$1"
+        fi
+    elif [ $# -ge 2 ]
+    then
+        if ! [[ $1 =~ $re ]]
+        then
+            ssh -CY controls@131.215.123.234 "${@:1:99}"
+        else
+            if ! [[ $2 =~ $re ]]
+            then
+                ssh -CY controls@131.215.123.234 -L "$1":localhost:"$1" "${@:2:99}"
+            else
+                ssh -CY controls@131.215.123.234 -L "$1":localhost:"$2" "${@:3:99}"
+            fi
+        fi
+    fi
+}
+
 scpws1() {
     dest=$2
     if [ ${dest:0:13} = "/Users/anchal" ]
@@ -145,6 +203,46 @@ rp1scp() {
     fi
 }
 
+scp2umioc() {
+    dest=$2
+    if [ ${dest:0:13} = "/Users/anchal" ]
+    then
+        scp "${@:3:99}" "$1" controls@131.215.123.232:"/home/controls${dest:13}"
+    else
+        scp "${@:3:99}" "$1" controls@131.215.123.232:"$2"
+    fi
+}
+
+2umiocscp() {
+    dest=$1
+    if [ ${dest:0:13} = "/Users/anchal" ]
+    then
+        scp "${@:3:99}" controls@131.215.123.232:"/home/controls${dest:13}" "$2"
+    else
+        scp "${@:3:99}" controls@131.215.123.232:"$1" "$2"
+    fi
+}
+
+scp2umws1() {
+    dest=$2
+    if [ ${dest:0:13} = "/Users/anchal" ]
+    then
+        scp "${@:3:99}" "$1" controls@131.215.123.234:"/home/controls${dest:13}"
+    else
+        scp "${@:3:99}" "$1" controls@131.215.123.234:"$2"
+    fi
+}
+
+2umws1scp() {
+    dest=$1
+    if [ ${dest:0:13} = "/Users/anchal" ]
+    then
+        scp "${@:3:99}" controls@131.215.123.234:"/home/controls${dest:13}" "$2"
+    else
+        scp "${@:3:99}" controls@131.215.123.234:"$1" "$2"
+    fi
+}
+
 jn() {
     re='^[0-9]+$'
     if [ $# -eq 0 ]
@@ -173,7 +271,8 @@ tmuxmux() {
   tmux has-session -t $session 2>/dev/null
   if [ $? != 0 ]
   then
-    tmux new -d -s "$session" ""$command" ; read" \;
+    tmux new -d -s "$session"
+    tmux send -t "$session" "$command" Enter
     echo 'Made new session: '"$session"
     echo 'With command: '"$command"
   else
@@ -183,7 +282,8 @@ tmuxmux() {
       session+=$sessionMult
       tmux has-session -t $session 2>/dev/null
     done
-    tmux new -d -s "$session" ""$command" ; read" \;
+    tmux new -d -s "$session"
+    tmux send -t "$session" "$command" Enter
     echo 'Made new session: '"$session"
     echo 'With command: '"$command"
   fi
