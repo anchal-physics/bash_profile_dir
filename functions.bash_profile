@@ -1,246 +1,70 @@
-ws1() {
+myssh() {
+    user=$1
+    ipad=$2
     re='^[0-9]+$'
-    if [ $# -eq 0 ]
+    if [ $# -eq 2 ]
     then
-        ssh -CY controls@131.215.115.216
-    elif [ $# -eq 1 ]
+        ssh -CY ${user}@${ipad}
+    elif [ $# -eq 3 ]
     then
-        if ! [[ $1 =~ $re ]]
+        if ! [[ $3 =~ $re ]]
         then
-            ssh -CY controls@131.215.115.216 "$1"
+            ssh -CY ${user}@${ipad} "$3"
         else
-            ssh -CY controls@131.215.115.216 -L "$1":localhost:"$1"
+            ssh -CY ${user}@${ipad} -L "$3":localhost:"$3"
         fi
-    elif [ $# -ge 2 ]
+    elif [ $# -ge 4 ]
     then
-        if ! [[ $1 =~ $re ]]
+        if ! [[ $3 =~ $re ]]
         then
-            ssh -CY controls@131.215.115.216 "${@:1:99}"
+            ssh -CY ${user}@${ipad} "${@:3:99}"
         else
-            if ! [[ $2 =~ $re ]]
+            if ! [[ $4 =~ $re ]]
             then
-                ssh -CY controls@131.215.115.216 -L "$1":localhost:"$1" "${@:2:99}"
+                ssh -CY ${user}@${ipad} -L "$3":localhost:"$3" "${@:4:99}"
             else
-                ssh -CY controls@131.215.115.216 -L "$1":localhost:"$2" "${@:3:99}"
+                ssh -CY ${user}@${ipad} -L "$3":localhost:"$4" "${@:5:99}"
             fi
         fi
     fi
 }
 
-nodus() {
-    re='^[0-9]+$'
-    if [ $# -eq 0 ]
-    then
-        ssh -CY controls@nodus.ligo.caltech.edu
-    elif [ $# -eq 1 ]
-    then
-        if ! [[ $1 =~ $re ]]
-        then
-            ssh -CY controls@nodus.ligo.caltech.edu "$1"
-        else
-            ssh -CY controls@nodus.ligo.caltech.edu -L "$1":localhost:"$1"
-        fi
-    elif [ $# -ge 2 ]
-    then
-        if ! [[ $1 =~ $re ]]
-        then
-            ssh -CY controls@nodus.ligo.caltech.edu "${@:1:99}"
-        else
-            if ! [[ $2 =~ $re ]]
-            then
-                ssh -CY controls@nodus.ligo.caltech.edu -L "$1":localhost:"$1" "${@:2:99}"
-            else
-                ssh -CY controls@nodus.ligo.caltech.edu -L "$1":localhost:"$2" "${@:3:99}"
-            fi
-        fi
-    fi
+scpssh() {
+  user=$1
+  ipad=$2
+  loc=$(expDot $3)
+  rem=$(expDot $4)
+  if [ ${dest:0:13} = "/Users/anchal" ]
+  then
+      scp "${@:5:99}" "${loc}" "${user}"@"${ipad}":"/home/${user}${rem:13}"
+  else
+      scp "${@:5:99}" "${loc}" "${user}"@"${ipad}":"${rem}"
+  fi
 }
 
-rp1() {
-    re='^[0-9]+$'
-    if [ $# -eq 0 ]
-    then
-        ssh -CY root@rp-f071e9.local
-    elif [ $# -eq 1 ]
-    then
-        if ! [[ $1 =~ $re ]]
-        then
-            ssh -CY root@rp-f071e9.local "$1"
-        else
-            ssh -CY root@rp-f071e9.local -L "$1":localhost:"$1"
-        fi
-    elif [ $# -ge 2 ]
-    then
-        if ! [[ $1 =~ $re ]]
-        then
-            ssh -CY root@rp-f071e9.local "${@:1:99}"
-        else
-            if ! [[ $2 =~ $re ]]
-            then
-                ssh -CY root@rp-f071e9.local -L "$1":localhost:"$1" "${@:2:99}"
-            else
-                ssh -CY root@rp-f071e9.local -L "$1":localhost:"$2" "${@:3:99}"
-            fi
-        fi
-    fi
+sshscp() {
+  user=$1
+  ipad=$2
+  rem=$(expDot $3)
+  loc=$(expDot $4)
+  if [ ${dest:0:13} = "/Users/anchal" ]
+  then
+      scp "${@:5:99}" "${user}"@"${ipad}":"/home/${user}${rem:13}" "${loc}"
+  else
+      scp "${@:5:99}" "${user}"@"${ipad}":"${rem}" "${loc}"
+  fi
 }
 
-2umioc() {
-    re='^[0-9]+$'
-    if [ $# -eq 0 ]
+expDot() {
+    destArg=$1
+    if [ ${destArg:0:2} = "./" ]
     then
-        ssh -CY controls@131.215.123.232
-    elif [ $# -eq 1 ]
-    then
-        if ! [[ $1 =~ $re ]]
-        then
-            ssh -CY controls@131.215.123.232 "$1"
-        else
-            ssh -CY controls@131.215.123.232 -L "$1":localhost:"$1"
-        fi
-    elif [ $# -ge 2 ]
-    then
-        if ! [[ $1 =~ $re ]]
-        then
-            ssh -CY controls@131.215.123.232 "${@:1:99}"
-        else
-            if ! [[ $2 =~ $re ]]
-            then
-                ssh -CY controls@131.215.123.232 -L "$1":localhost:"$1" "${@:2:99}"
-            else
-                ssh -CY controls@131.215.123.232 -L "$1":localhost:"$2" "${@:3:99}"
-            fi
-        fi
-    fi
-}
-
-2umws1() {
-    re='^[0-9]+$'
-    if [ $# -eq 0 ]
-    then
-        ssh -CY controls@131.215.123.234
-    elif [ $# -eq 1 ]
-    then
-        if ! [[ $1 =~ $re ]]
-        then
-            ssh -CY controls@131.215.123.234 "$1"
-        else
-            ssh -CY controls@131.215.123.234 -L "$1":localhost:"$1"
-        fi
-    elif [ $# -ge 2 ]
-    then
-        if ! [[ $1 =~ $re ]]
-        then
-            ssh -CY controls@131.215.123.234 "${@:1:99}"
-        else
-            if ! [[ $2 =~ $re ]]
-            then
-                ssh -CY controls@131.215.123.234 -L "$1":localhost:"$1" "${@:2:99}"
-            else
-                ssh -CY controls@131.215.123.234 -L "$1":localhost:"$2" "${@:3:99}"
-            fi
-        fi
-    fi
-}
-
-scpws1() {
-    dest=$2
-    if [ ${dest:0:13} = "/Users/anchal" ]
-    then
-        scp "${@:3:99}" "$1" controls@131.215.115.216:"/home/controls${dest:13}"
+        cwd=`pwd`
+        dest="${cwd}""${destArg:1}"
     else
-        scp "${@:3:99}" "$1" controls@131.215.115.216:"$2"
+        dest="${destArg:0}"
     fi
-}
-
-ws1scp() {
-    dest=$1
-    if [ ${dest:0:13} = "/Users/anchal" ]
-    then
-        scp "${@:3:99}" controls@131.215.115.216:"/home/controls${dest:13}" "$2"
-    else
-        scp "${@:3:99}" controls@131.215.115.216:"$1" "$2"
-    fi
-}
-
-scpnodus() {
-    dest=$2
-    if [ ${dest:0:13} = "/Users/anchal" ]
-    then
-        scp "${@:3:99}" "$1" controls@nodus.ligo.caltech.edu:"/home/controls${dest:13}"
-    else
-        scp "${@:3:99}" "$1" controls@nodus.ligo.caltech.edu:"$2"
-    fi
-}
-
-nodusscp() {
-    dest=$1
-    if [ ${dest:0:13} = "/Users/anchal" ]
-    then
-        scp "${@:3:99}" controls@nodus.ligo.caltech.edu:"/home/controls${dest:13}" "$2"
-    else
-        scp "${@:3:99}" controls@nodus.ligo.caltech.edu:"$1" "$2"
-    fi
-}
-
-scprp1() {
-    dest=$2
-    if [ ${dest:0:13} = "/Users/anchal" ]
-    then
-        scp "${@:3:99}" "$1" root@rp-f071e9.local:"/home/anchal${dest:13}"
-    else
-        scp "${@:3:99}" "$1" root@rp-f071e9.local:"$2"
-    fi
-}
-
-rp1scp() {
-    dest=$1
-    if [ ${dest:0:13} = "/Users/anchal" ]
-    then
-        scp "${@:3:99}" root@rp-f071e9.local:"/home/anchal${dest:13}" "$2"
-    else
-        scp "${@:3:99}" root@rp-f071e9.local:"$1" "$2"
-    fi
-}
-
-scp2umioc() {
-    dest=$2
-    if [ ${dest:0:13} = "/Users/anchal" ]
-    then
-        scp "${@:3:99}" "$1" controls@131.215.123.232:"/home/controls${dest:13}"
-    else
-        scp "${@:3:99}" "$1" controls@131.215.123.232:"$2"
-    fi
-}
-
-2umiocscp() {
-    dest=$1
-    if [ ${dest:0:13} = "/Users/anchal" ]
-    then
-        scp "${@:3:99}" controls@131.215.123.232:"/home/controls${dest:13}" "$2"
-    else
-        scp "${@:3:99}" controls@131.215.123.232:"$1" "$2"
-    fi
-}
-
-scp2umws1() {
-    dest=$2
-    if [ ${dest:0:13} = "/Users/anchal" ]
-    then
-        scp "${@:3:99}" "$1" controls@131.215.123.234:"/home/controls${dest:13}"
-    else
-        scp "${@:3:99}" "$1" controls@131.215.123.234:"$2"
-    fi
-}
-
-2umws1scp() {
-    dest=$1
-    if [ ${dest:0:13} = "/Users/anchal" ]
-    then
-        scp "${@:3:99}" controls@131.215.123.234:"/home/controls${dest:13}" "$2"
-    else
-        scp "${@:3:99}" controls@131.215.123.234:"$1" "$2"
-    fi
+    echo "${dest}"
 }
 
 jn() {
