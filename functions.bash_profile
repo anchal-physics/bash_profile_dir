@@ -34,7 +34,7 @@ scpssh() {
   ipad=$2
   loc=$(expDot $3)
   rem=$(expDot $4)
-  if [ ${dest:0:13} = "/Users/anchal" ]
+  if [ ${rem:0:13} = "/Users/anchal" ]
   then
       scp "${@:5:99}" "${loc}" "${user}"@"${ipad}":"/home/${user}${rem:13}"
   else
@@ -47,7 +47,7 @@ sshscp() {
   ipad=$2
   rem=$(expDot $3)
   loc=$(expDot $4)
-  if [ ${dest:0:13} = "/Users/anchal" ]
+  if [ ${rem:0:13} = "/Users/anchal" ]
   then
       scp "${@:5:99}" "${user}"@"${ipad}":"/home/${user}${rem:13}" "${loc}"
   else
