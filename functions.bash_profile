@@ -34,12 +34,16 @@ scpssh() {
   ipad=$2
   loc=$(expDot $3)
   rem=$(expDot $4)
-  if [ ${rem:0:13} = "/Users/anchal" ]
+  if [ ${rem:0:24} = "/Users/anchal/nodususers" ]
   then
-      scp "${@:5:99}" "${loc}" "${user}"@"${ipad}":"/home/${user}${rem:13}"
+      dest="/users/${rem:24}"
+  elif [ ${rem:0:13} = "/Users/anchal" ]
+  then
+      dest="/home/${user}${rem:13}"
   else
-      scp "${@:5:99}" "${loc}" "${user}"@"${ipad}":"${rem}"
+      dest=$rem
   fi
+  scp "${@:5:99}" "${loc}" "${user}"@"${ipad}":"${dest}"
 }
 
 sshscp() {
@@ -47,12 +51,16 @@ sshscp() {
   ipad=$2
   rem=$(expDot $3)
   loc=$(expDot $4)
-  if [ ${rem:0:13} = "/Users/anchal" ]
+  if [ ${rem:0:24} = "/Users/anchal/nodususers" ]
   then
-      scp "${@:5:99}" "${user}"@"${ipad}":"/home/${user}${rem:13}" "${loc}"
+      src="/users/${rem:24}"
+  elif [ ${rem:0:13} = "/Users/anchal" ]
+  then
+      src="/home/${user}${rem:13}"
   else
-      scp "${@:5:99}" "${user}"@"${ipad}":"${rem}" "${loc}"
+      src=$rem
   fi
+  scp "${@:5:99}" "${user}"@"${ipad}":"${src}" "${loc}"
 }
 
 expDot() {
