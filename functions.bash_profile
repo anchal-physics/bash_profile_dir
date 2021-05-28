@@ -36,7 +36,7 @@ scpssh() {
   rem=$(expDot $4)
   if [ ${rem:0:24} = "/Users/anchal/nodususers" ]
   then
-      dest="/users/${rem:24}"
+      dest="/users${rem:24}"
   elif [ ${rem:0:13} = "/Users/anchal" ]
   then
       dest="/home/${user}${rem:13}"
