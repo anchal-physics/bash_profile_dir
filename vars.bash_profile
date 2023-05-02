@@ -1,1 +1,1 @@
-export DISPLAY=:1.0
+# export DISPLAY=localhost:0.0

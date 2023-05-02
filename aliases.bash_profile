@@ -1,6 +1,6 @@
 alias syncTSfile='python ~/Git/cit_ctnlab/ctn_scripts/syncTSfiles.py'
 alias liconvert='~/Git/lireader/liconvert'
-for file in ~/Git/my_scripts/*.py;
+for file in ~/Git/anchal-physics/my_scripts/*.py;
 do
   alias ${${file##*/}/.py/}="python "$file
 done
